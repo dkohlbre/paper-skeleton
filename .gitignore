@@ -1,0 +1,11 @@
+*.dvi
+*.aux
+*.log
+*.blg
+*.bbl
+*.ilg
+*.idx
+*.out
+*.in
+*.ps
+*~

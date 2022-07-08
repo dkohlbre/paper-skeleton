@@ -1,0 +1,77 @@
+\documentclass[10pt, twocolumn]{IEEEtran}
+
+\usepackage{mathptmx}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{url}
+
+\usepackage{comment}
+\usepackage{pifont}
+
+\usepackage{color}
+\usepackage{xspace}
+\usepackage{booktabs,tabularx}
+\usepackage[numbers,sort]{natbib}
+\usepackage{ragged2e}
+\usepackage{tikz}
+\usepackage{dcolumn}
+\usepackage{dsfont}
+\usepackage{graphicx}
+%\graphicspath{ {./images/} }
+
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{etoolbox}
+
+\usepackage{hyperref}
+\usepackage{flushend}
+
+\usepackage[linesnumbered]{algorithm2e}
+\SetAlCapFnt{\footnotesize}
+\SetAlCapNameFnt{\footnotesize}
+\SetAlCapSkip{4pt}
+
+% Put all our special nonsense in here
+\usepackage{localmacros}
+
+\begin{document}
+
+\title{Its a paper title}
+
+% Trick for getting numbers into superscripts on names
+\DeclareRobustCommand*{\IEEEauthorrefnum}[1]{\raisebox{0pt}[0pt][0pt]{\textsuperscript{\footnotesize\ensuremath{#1}}}}
+
+% Note this author block has co-first authors, only relevant to some papers
+\author{
+\IEEEauthorblockN{
+Co-Author 1\IEEEauthorrefnum{1}\IEEEauthorrefmark{2},
+Co-Author 1\IEEEauthorrefnum{1}\IEEEauthorrefmark{1},
+Author 2\IEEEauthorrefmark{1},
+Author 3\IEEEauthorrefmark{2}\\
+}
+\IEEEauthorblockA{
+\IEEEauthorrefmark{1}University of Washington,
+\IEEEauthorrefmark{2}School 2\\
+\{emails\}@cs.washington.edu,
+\{emails\}@school2.edu
+}
+}
+\clubpenalty=10000
+\widowpenalty=10000
+
+\maketitle
+\footnotetext[1]{The two first authors contributed equally to the paper.}
+
+\input{text/abstract}
+\input{text/introduction}
+\input{text/acks}
+
+{\small
+\bibliographystyle{plain}
+\bibliography{bibs/dkohlbre}
+
+\end{document}
