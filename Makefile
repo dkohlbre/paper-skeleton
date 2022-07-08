@@ -7,7 +7,7 @@ all:
 	pdflatex $(PAPERNAME)
 
 spell:
-	find . -maxdepth 1 -iname '*.tex' -not -name '${PAPERNAME}.tex' -exec cat {} + | aspell -a --add-extra-dicts=./dict --add-filter=tex | tail -n+2 | grep -v \* | cut -d\  -f2 | sort | uniq | cat -s
+	find . -maxdepth 2 -iname '*.tex' -not -name '${PAPERNAME}.tex' -exec cat {} + | aspell -a --add-extra-dicts=./dict --add-filter=tex | tail -n+2 | grep -v \* | cut -d\  -f2 | sort | uniq | cat -s
 
 # These are for diffing between major paper versions. First, checkout
 # the 'old' version, run latexpand paper.tex > old-paper.tex, then
