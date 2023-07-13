@@ -3,8 +3,8 @@ PAPERNAME=paper
 all:
 	pdflatex -shell-escape $(PAPERNAME)
 	bibtex $(PAPERNAME)
-	pdflatex $(PAPERNAME)
-	pdflatex $(PAPERNAME)
+	pdflatex -shell-escape $(PAPERNAME)
+	pdflatex -shell-escape $(PAPERNAME)
 
 spell:
 	find . -maxdepth 2 -iname '*.tex' -not -name '${PAPERNAME}.tex' -exec cat {} + | aspell -a --add-extra-dicts=./dict --add-filter=tex | tail -n+2 | grep -v \* | cut -d\  -f2 | sort | uniq | cat -s
@@ -23,8 +23,8 @@ diff-$(PAPERNAME).tex: old-$(PAPERNAME).tex new-$(PAPERNAME).tex
 diff: diff-$(PAPERNAME).tex
 	pdflatex -shell-escape diff-$(PAPERNAME)
 	bibtex diff-$(PAPERNAME)
-	pdflatex diff-$(PAPERNAME)
-	pdflatex diff-$(PAPERNAME)
+	pdflatex -shell-escape diff-$(PAPERNAME)
+	pdflatex -shell-escape diff-$(PAPERNAME)
 
 embed-fonts: ${PAPERNAME}.pdf
 	gs -q -dNOPAUSE -dBATCH -dPDFSETTINGS=/prepress -sDEVICE=pdfwrite -sOutputFile=${PAPERNAME}_embedded.pdf ${PAPERNAME}.pdf
