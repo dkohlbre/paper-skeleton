@@ -1,76 +1,95 @@
-% This should ALWAYS be the top command
+% These should ALWAYS be the top commands
 \newif\ifdraft
-\drafttrue % switch to false to disable comments/etc
+\newif\ifcomments
+\newif\ifurls
+\newif\ifmisc
+\newif\ifcodestyles
+
+%%%% Configuration options %%%%
+% DRAFT controls if we should warn about comments/todos and other draft features
+\drafttrue
+% COMMENTS allows you to disable all comments (not TODOs), useful for passing off to a friend to review 
+\commentstrue
+% MISC stuff is modifying mostly safe things, but may need to disable
+\misctrue
+% CODESTYLES are safe, and just enable nice formatting and listings
+\codestylestrue
+% URLS are safe, and just let URLS break way better
+\urlstrue
+%%%% end config options %%%%
+
+% render comments only if enabled, warn if we aren't in draft mode
+\newcommand\draftcomment[1]{\ifdraft{} \ifcomments{} #1 \fi \else{} \ifcomments{} {\large COMMENTINRELEASE: #1} \fi{} \fi{}}
+
+% All authors should get a macro here
+\newcommand{\david}[1]{{\footnotesize\color{teal}\draftcomment{[David: #1]}}}
+
+% These are for when doing manual tricks to get within page limit.
+% If you are actually adding permanent spacing, don't use.
+% These are generally bad. Use only when absolutely necessary.
+\newcommand\spacehacksfig[1]{\vspace{#1}}
+\newcommand\spacehackstext[1]{\vspace{#1}}
+
+% Put paper specific abbrevs here
+\newcommand\ssec[1]{\subsubsection{\bf #1}}
+\newcommand\tech[1]{$\mathsf{#1}$}
+
+\newcommand\todo[1]{\textcolor{red}{\ifdraft{} TODO:#1 \else {\large TODOINRELEASE: #1} \fi{}}}
+
+% ----------------- Below here are less modifiable bits ---------------------
 
 % Macros for comments, draft mode bits, etc
 \ifdraft
 \usepackage{datetime}
 \usepackage{fancyhdr}
 \fancyfoot[C]{\thepage}
-\fancyfoot[R]{\textcolor{red}{\bfseries\currenttime\ \today}}
+%\fancyfoot5A[R]{\textcolor{red}{\bfseries\currenttime\ \today}}
 \renewcommand\headrulewidth{0pt}
 \renewcommand\footrulewidth{0pt}
-
 \fi
 
-% All authors should get a macro here
-\newcommand\todo[1]{\textcolor{red}{\ifdraft{TODO:#1}}}
-\newcommand{\david}[1]{{\footnotesize\color{teal}\ifdraft{[David: #1]}}}
 
-% These are for when doing manual tricks to get within page limit.
-% If you are actually adding permanent spacing, don't use.
-\newcommand\spacehacksfig[1]{\vspace{#1}}
-\newcommand\spacehackstext[1]{\vspace{#1}}
+\hyphenation{white-list}
 
 \let\oldnl\nl% Store \nl in \oldnl
 \newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}% Remove line number for one line
 
-% Put paper specific abbrevs here
-\newcommand\ssec[1]{\subsubsection{\bf #1}}
-\newcommand\tech[1]{$\mathsf{#1}$}
-
-
-% ----------------- Below here are less modifiable bits ---------------------
-
-\hyphenation{white-list}
+% MISC stuff is modifying mostly safe things, but may need to disable
+\ifmisc
 
 % taken from hs's mary.tex, and tracing back to knuth.
 \def\dash---{\kern.16667em---\penalty\exhyphenpenalty\hskip.16667em\relax}
 
-% C++ macro from john mitchell
-\def\CC{C\raise.22ex\hbox{{\footnotesize +}}\raise.22ex\hbox{\footnotesize +}\xspace}
-
-% Make URLs linebreak better (hat-tip alexras)
-  % A sequence of BigBreaks will be treated as one break, so it will only be able to break after ://
-  \renewcommand{\UrlBigBreaks}{\do\:\do\/}
-  % (Less aggressive) Treat both / and - as breakable characters (don't know why this does something different than hyphens in the package declaration, but it does)
-  \renewcommand{\UrlBreaks}{\do\/\do\-}
-  % (More aggressive) Any letter and / are treated as breakable characters
-\renewcommand{\UrlBreaks}{\do\/\do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N\do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X\do\Y\do\Z}
-
 % Alter some LaTeX defaults for better treatment of figures:
-    % See p.105 of "TeX Unbound" for suggested values.
-    % See pp. 199-200 of Lamport's "LaTeX" book for details.
-    %   General parameters, for ALL pages:
-    \renewcommand{\topfraction}{0.9}    % max fraction of floats at top
-    \renewcommand{\bottomfraction}{0.8} % max fraction of floats at bottom
-    %   Parameters for TEXT pages (not float pages):
-    \setcounter{topnumber}{2}
-    \setcounter{bottomnumber}{4}
-    \setcounter{totalnumber}{6}         % 2 may work better
-    \setcounter{dbltopnumber}{2}        % for 2-column pages
-    \renewcommand{\dbltopfraction}{0.9} % fit big float above 2-col. text
-    \renewcommand{\textfraction}{0.07}  % allow minimal text w. figs
-    %   Parameters for FLOAT pages (not text pages):
-    \renewcommand{\floatpagefraction}{0.8}  % require fuller float pages
-    % N.B.: floatpagefraction MUST be less than topfraction !!
-    \renewcommand{\dblfloatpagefraction}{0.8} % require fuller float pages
+% See p.105 of "TeX Unbound" for suggested values.
+% See pp. 199-200 of Lamport's "LaTeX" book for details.
+%   General parameters, for ALL pages:
+\renewcommand{\topfraction}{0.9}    % max fraction of floats at top
+\renewcommand{\bottomfraction}{0.8} % max fraction of floats at bottom
+%   Parameters for TEXT pages (not float pages):
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{4}
+\setcounter{totalnumber}{6}         % 2 may work better
+\setcounter{dbltopnumber}{2}        % for 2-column pages
+\renewcommand{\dbltopfraction}{0.9} % fit big float above 2-col. text
+\renewcommand{\textfraction}{0.07}  % allow minimal text w. figs
+%   Parameters for FLOAT pages (not text pages):
+\renewcommand{\floatpagefraction}{0.8}  % require fuller float pages
+% N.B.: floatpagefraction MUST be less than topfraction !!
+\renewcommand{\dblfloatpagefraction}{0.8} % require fuller float pages
 
 % this modifies the spacing around verbatim
 \makeatletter
 \preto{\@verbatim}{\topsep=1pt \partopsep=1pt }
 \makeatother
 
+\fi
+
+% CODESTYLES are safe, and just enable nice formatting and listings
+\ifcodestyles
+
+% C++ macro from john mitchell
+\def\CC{C\raise.22ex\hbox{{\footnotesize +}}\raise.22ex\hbox{\footnotesize +}\xspace}
 
 \hypersetup{
     colorlinks=true,
@@ -129,3 +148,19 @@
     moredelim=**[is][{\btHL[fill=green!30,draw=red,dashed,thin]}]{@}{@},
 }
 \makeatother
+
+\fi
+
+% URLS are safe, and just let URLS break way better
+\ifurls
+
+% Make URLs linebreak better (hat-tip alexras)
+  % A sequence of BigBreaks will be treated as one break, so it will only be able to break after ://
+  \renewcommand{\UrlBigBreaks}{\do\:\do\/}
+  % (Less aggressive) Treat both / and - as breakable characters (don't know why this does something different than hyphens in the package declaration, but it does)
+  \renewcommand{\UrlBreaks}{\do\/\do\-}
+  % (More aggressive) Any letter and / are treated as breakable characters
+\renewcommand{\UrlBreaks}{\do\/\do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N\do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X\do\Y\do\Z}
+
+\fi
+
