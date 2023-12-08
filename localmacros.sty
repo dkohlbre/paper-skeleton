@@ -57,6 +57,27 @@
 % MISC stuff is modifying mostly safe things, but may need to disable
 \ifmisc
 
+% load \bit and \byte units in < 3.0 versions of siunitx:
+\sisetup{binary-units=true}
+% use text font for unit labels:
+\sisetup{detect-all}
+
+%% Older alternative style
+%% \hypersetup{
+%%     colorlinks=true,
+%%     linkcolor=blue,
+%%     filecolor=magenta,
+%%     urlcolor=cyan,
+%%     }
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=blue,
+    pdfpagemode=FullScreen,
+}
+\urlstyle{same}
+
 % taken from hs's mary.tex, and tracing back to knuth.
 \def\dash---{\kern.16667em---\penalty\exhyphenpenalty\hskip.16667em\relax}
 
@@ -88,15 +109,14 @@
 % CODESTYLES are safe, and just enable nice formatting and listings
 \ifcodestyles
 
+% have inline listings use typewriter font and be delimited by |...|
+\lstMakeShortInline[basicstyle=\ttfamily,breaklines=true]|
+
 % C++ macro from john mitchell
 \def\CC{C\raise.22ex\hbox{{\footnotesize +}}\raise.22ex\hbox{\footnotesize +}\xspace}
 
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    filecolor=magenta,
-    urlcolor=cyan,
-    }
+
+
 
 \lstset{frame=tb,
   language=C,
