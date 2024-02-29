@@ -1,6 +1,18 @@
 PAPERNAME=paper
 
-all:
+# Set wherever you put figs (images, pdfs, etc)
+FIG_DIRS := fig/ figs/ img/ figures/
+
+# Look for TEX files, drop new- and old- and diff- prefixed versions of the main file.
+TEX_SOURCES := $(shell find . -maxdepth 2 -iname '*.tex' -not -name '*-${PAPERNAME}.tex')
+
+# Look for images
+IMG_SOURCES := $(shell find $(FIG_DIRS) 2&>/dev/null)
+
+all: $(PAPERNAME).pdf
+
+# Rebuild for changes to tex and images
+$(PAPERNAME).pdf: $(TEX_SOURCES) $(IMG_SOURCES)
 	pdflatex -shell-escape $(PAPERNAME)
 	bibtex $(PAPERNAME)
 	pdflatex -shell-escape $(PAPERNAME)
@@ -12,7 +24,7 @@ spell:
 # These are for diffing between major paper versions. First, checkout
 # the 'old' version, run make old, then return to HEAD and run make
 # diff
-new-$(PAPERNAME).tex: $(PAPERNAME).tex
+new-$(PAPERNAME).tex: $(TEX_SOURCES) $(IMG_SOURCES)
 	latexpand $(PAPERNAME).tex > new-$(PAPERNAME).tex
 
 # latexdiff is odd sometimes, and can require explicilty exempting
@@ -27,7 +39,7 @@ diff: diff-$(PAPERNAME).tex
 	pdflatex -shell-escape diff-$(PAPERNAME)
 
 # Utility for making the old thing, you still need to checkout the right thing
-old: old-$(PAPERNAME).tex
+old:
 	latexpand $(PAPERNAME).tex > old-$(PAPERNAME).tex
 
 embed-fonts: ${PAPERNAME}.pdf
