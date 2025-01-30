@@ -1,4 +1,20 @@
+% This is all the tagged PDF stuff: https://latex3.github.io/tagging-project/documentation/prototype-usage-instructions.html
+\DocumentMetadata{
+  lang        = en,
+  pdfversion  = 2.0,
+  pdfstandard = ua-2,
+  pdfstandard = a-4f, %or a-4
+  testphase   =
+   {phase-III,
+    title,
+    table,
+    math,
+    firstaid}  
+}
+
 \documentclass[10pt, twocolumn]{IEEEtran}
+
+\usepackage{lipsum}
 
 \usepackage{mathptmx}
 \usepackage{amsmath}
@@ -49,8 +65,8 @@
 % Note this author block has co-first authors, only relevant to some papers
 \author{
 \IEEEauthorblockN{
-Co-Author 1\IEEEauthorrefnum{1}\IEEEauthorrefmark{2},
 Co-Author 1\IEEEauthorrefnum{1}\IEEEauthorrefmark{1},
+Co-Author 1\IEEEauthorrefnum{1}\IEEEauthorrefmark{2},
 Author 2\IEEEauthorrefmark{1},
 Author 3\IEEEauthorrefmark{2}\\
 }
@@ -69,10 +85,10 @@ Author 3\IEEEauthorrefmark{2}\\
 
 \input{text/abstract}
 \input{text/introduction}
+\input{text/design}
 \input{text/acks}
 
-{\small
-\bibliographystyle{plain}
+\bibliographystyle{IEEEtran}
 \bibliography{bibs/dkohlbre}
 
 \end{document}
