@@ -1,4 +1,6 @@
 PAPERNAME=paper
+# Note, for better taggedpdf stuff, you may need lualatex-dev (from extra/texlive-bin or similar)
+LATEXENGINE=pdflatex
 
 # Set wherever you put figs (images, pdfs, etc)
 FIG_DIRS := fig/ figs/ img/ figures/
@@ -13,10 +15,10 @@ all: $(PAPERNAME).pdf
 
 # Rebuild for changes to tex and images
 $(PAPERNAME).pdf: $(TEX_SOURCES) $(IMG_SOURCES)
-	pdflatex -shell-escape $(PAPERNAME)
+	${LATEXENGINE} -shell-escape $(PAPERNAME)
 	bibtex $(PAPERNAME)
-	pdflatex -shell-escape $(PAPERNAME)
-	pdflatex -shell-escape $(PAPERNAME)
+	${LATEXENGINE} -shell-escape $(PAPERNAME)
+	${LATEXENGINE} -shell-escape $(PAPERNAME)
 
 spell:
 	find . -maxdepth 2 -iname '*.tex' -not -name '${PAPERNAME}.tex' -exec cat {} + | aspell -a --add-extra-dicts=./dict --add-filter=tex | tail -n+2 | grep -v \* | cut -d\  -f2 | sort | uniq | cat -s
@@ -33,10 +35,10 @@ diff-$(PAPERNAME).tex: old-$(PAPERNAME).tex new-$(PAPERNAME).tex
 	latexdiff --config="PICTUREENV=(?:picture|DIFnomarkup|table|CCSXML|comment)[\w\d*@]*" --exclude-textcmd="subsection,title,author" old-$(PAPERNAME).tex new-$(PAPERNAME).tex > diff-$(PAPERNAME).tex
 
 diff: diff-$(PAPERNAME).tex
-	pdflatex -shell-escape diff-$(PAPERNAME)
+	${LATEXENGINE} -shell-escape diff-$(PAPERNAME)
 	bibtex diff-$(PAPERNAME)
-	pdflatex -shell-escape diff-$(PAPERNAME)
-	pdflatex -shell-escape diff-$(PAPERNAME)
+	${LATEXENGINE} -shell-escape diff-$(PAPERNAME)
+	${LATEXENGINE} -shell-escape diff-$(PAPERNAME)
 
 # Utility for making the old thing, you still need to checkout the right thing
 old:
